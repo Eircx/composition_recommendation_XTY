@@ -84,6 +84,7 @@ if __name__ == "__main__":
             D_optimizer.step()
 
             loss_D_list.append(good_loss.item())
+            print("good_loss", good_loss.item())
 
             _, predicted = torch.max(good_scores, dim=1)
             good_total += good_img.size(0)
@@ -99,8 +100,8 @@ if __name__ == "__main__":
                 common_labels = torch.zeros(inputs.size(0)).long().to(opts.device) #假图片
                 common_loss = criterion(common_scores, common_labels)
                 loss_G_list.append(common_loss.item())                
-                save_image(inputs, path.join(opts.img_dir, 'original_img%d.png' % (epoch + 1)), nrow=ceil(sqrt(inputs.size(0))), normalize=True)
-                save_image(cropped_pictures, path.join(opts.img_dir, 'test_img%d.png' % (epoch + 1)), nrow=ceil(sqrt(cropped_pictures.size(0))), normalize=True)
+                save_image(inputs, path.join(opts.img_dir, 'original_img%d.png' % (i + 1)), nrow=ceil(sqrt(inputs.size(0))), normalize=True)
+                save_image(cropped_pictures, path.join(opts.img_dir, 'test_img%d.png' % (i + 1)), nrow=ceil(sqrt(cropped_pictures.size(0))), normalize=True)
                 common_loss.backward()
                 G_optimizer.step()
 

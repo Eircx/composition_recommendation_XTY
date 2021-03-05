@@ -23,10 +23,10 @@ class ImageCropper(nn.Module):
     
     def stn(self, x, coordinates):
         theta = torch.zeros(x.size(0), 2, 3).to(x.device)
-        theta[:, 0, 0] = 1 / coordinates[:, 0]
+        theta[:, 0, 0] = coordinates[:, 0]
         theta[:, 0, 2] = 2 - 4 * coordinates[:, 2]
-        theta[:, 1, 1] = 1 / coordinates[:, 1]
-        theta[:, 1, 2] = 2 - 4 * coordinates[:, 2]
+        theta[:, 1, 1] = coordinates[:, 1]
+        theta[:, 1, 2] = 2 - 4 * coordinates[:, 3]
         grid = F.affine_grid(theta, (x.size(0), x.size(1), 224, 224))
         cropped_images = F.grid_sample(x, grid)
         return cropped_images
